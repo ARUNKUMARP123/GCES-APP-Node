@@ -326,7 +326,7 @@ const fetchUsers=async (req,res)=>{
           from: process.env.ME,
           to:email,
           subject: 'Reset Password Link',
-          text: `http://localhost:5173/reset-password/${userExist._id}/${token}`
+          text: `http://localhost:4001/reset-password/${userExist._id}/${token}`
         };
         transporter.sendMail(mailOptions, function(error, info){
           if (error) {
