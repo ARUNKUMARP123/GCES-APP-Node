@@ -1,0 +1,71 @@
+const express=require("express");
+const{connectdb,mongoose}=require("./db");
+const {handleUserRegistration,handleUserLogin,handleUsers,fetchUsers,handleEditUsers,handleDeleteUsers,handelFetchOne,handleResetPassword,handleForgotPassword}=require("./Services")
+const app=express();
+const bodyparser=require("body-parser");
+const cors=require("cors");
+const LoginShiled = require("./middlewares/LoginShield");
+
+
+
+require('dotenv').config()
+
+app.use(cors());
+app.use(bodyparser.json( ));
+
+connectdb();
+
+app.get("/",(req,res)=>{
+  res.send("Server Working");
+})
+
+app.get("/connectdb",(req,res)=>{
+  connectdb(res);
+  //res.send("Database Working");
+})
+
+app.post("/login",(req,res)=>{
+    handleUserLogin(req,res);
+    })
+
+    
+    app.post("/registration",(req,res)=>{
+        handleUserRegistration(req,res);
+        })
+
+
+        app.post("/create_users",(req,res)=>{
+          handleUsers(req,res);
+          })
+
+
+          app.get("/fetchUsers",(req,res)=>{
+            fetchUsers(req,res);
+            })
+
+            
+          app.put("/editUsers/:id",(req,res)=>{
+            handleEditUsers(req,res);
+            })
+
+            app.get("/getone/:id",(req,res)=>{
+              handelFetchOne(req,res)
+            })
+      
+
+            app.delete("/deleteUsers/:id",(req,res)=>{
+              handleDeleteUsers(req,res);
+              })
+
+              app.post('/forgot-password/', (req, res) =>{
+                handleForgotPassword(req,res);
+              })
+
+              app.post('/reset-password/:id/:token', (req, res) =>{
+                handleResetPassword(req,res);
+              })
+
+              
+app.listen(process.env.PORT,process.env.HOSTNAME,()=>{
+    console.log("Server Started at 4001")
+})
