@@ -34,26 +34,26 @@ app.post("/login",(req,res)=>{
         })
 
 
-        app.post("/create_users",(req,res)=>{
+        app.post("/create_users",LoginShiled,(req,res)=>{
           handleUsers(req,res);
           })
 
 
-          app.get("/fetchUsers",(req,res)=>{
+          app.get("/fetchUsers",LoginShiled,(req,res)=>{
             fetchUsers(req,res);
             })
 
             
-          app.put("/editUsers/:id",(req,res)=>{
+          app.put("/editUsers/:id",LoginShiled,(req,res)=>{
             handleEditUsers(req,res);
             })
 
-            app.get("/getone/:id",(req,res)=>{
+            app.get("/getone/:id",LoginShiled,(req,res)=>{
               handelFetchOne(req,res)
             })
       
 
-            app.delete("/deleteUsers/:id",(req,res)=>{
+            app.delete("/deleteUsers/:id",LoginShiled,(req,res)=>{
               handleDeleteUsers(req,res);
               })
 

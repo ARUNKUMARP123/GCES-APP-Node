@@ -22,8 +22,7 @@ const handleUserRegistration = async (req, res) => {
       !req.body.phonenumber ||
       !req.body.course ||
       !req.body.branch ||
-      !req.body.batch ||
-      !req.body.usertype
+      !req.body.batch 
     ) {
       return res.status(401).json({
         success: false,
@@ -43,18 +42,20 @@ const handleUserRegistration = async (req, res) => {
             { rollnumber: NEW_USER.rollnumber },
             process.env.JWT_SECRET_KEY,
             {
-              expiresIn: "2m",
+              expiresIn: '2d',
               issuer: "APP_SERVER",
               subject: "Token for session",
             }
           );
-          res.cookie("1h", JWT_TOKEN, "/");
+          
+          res.cookie("2h", JWT_TOKEN, "/");
           return res.status(201).json({
             success: true,
             message: "Account Creation Successful.",
             users: response,
           });
-        } else {
+        } 
+        else {
           throw new Error("Account Creation Failed.");
         }
       }
@@ -99,12 +100,12 @@ const handleUserLogin = async (req, res) => {
             { rollnumber: saved_user.rollnumber },
             process.env.JWT_SECRET_KEY,
             {
-              expiresIn: 60 * 2,
+              expiresIn: '2d',
               issuer: "APP_SERVER",
               subject: "Token for session",
             }
           );
-          res.cookie("1h", JWT_TOKEN, "/");
+          res.cookie("2d", JWT_TOKEN, "/");
           return res.status(200).json({
             success: true,
             message: "Login Successful.",
@@ -129,7 +130,7 @@ const handleUserLogin = async (req, res) => {
       message: "Internal Server Error.",
     });
   }
-};
+};  
 
 
 
@@ -302,7 +303,6 @@ const fetchUsers=async (req,res)=>{
       
       }
 
-      
       const handleForgotPassword= async(req, res)=>{
         try {
           const email= req.body.email;
@@ -314,7 +314,7 @@ const fetchUsers=async (req,res)=>{
         })
       }
       else{
-        const token = jwt.sign({id: userExist._id}, process.env.JWT_SECRET_KEY, {expiresIn: "1d"})
+        const token = jwt.sign({id: userExist._id}, process.env.JWT_SECRET_KEY, {expiresIn: "5m"})
         var transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
@@ -326,13 +326,15 @@ const fetchUsers=async (req,res)=>{
           from: process.env.ME,
           to:email,
           subject: 'Reset Password Link',
-          text: `http://localhost:4001/reset-password/${userExist._id}/${token}`
+          text: `Please click the link to reset your password: ${process.env.FRONTEND_URL}/reset-password/${userExist._id}/${token}`,
+         
         };
         transporter.sendMail(mailOptions, function(error, info){
           if (error) {
             console.log(error);
           } else {
-            return res.send({Status: "Success"})
+            console.log('Email sent: ' + info.response);
+            return res.send({Status: "Reset Password Link send Success"})
           }
         });
       }
@@ -348,19 +350,17 @@ const fetchUsers=async (req,res)=>{
 
       const handleResetPassword=async(req,res)=>{
         try {
-          const {id} = req.params
-          const {password} = req.body
-          const userExist= await RegistrationModel.findById(id)
-      if(!userExist){ 
-        return res.status(404).json({
-          message:"User Not Found...",
-        })
-      }
-      else{
-        const filter=id;
-       const  update=password;
+          const id = req.params.id
+          const token=req.params.token
+          const isTokenValid = jwt.verify(token, process.env.JWT_SECRET_KEY, {
+            complete: true,
+          });
+          if (isTokenValid) {
+            const filter={_id:id};
+       const  password=req.body.password;
        const hash = bcrypt.hashSync(password, salt);
-       password = hash;
+       req.body.password = hash;
+       const update={password1:hash}
        const response =await RegistrationModel.findByIdAndUpdate(filter,update,{new:true});
         if(response){
        return res.status(200).json({
@@ -371,7 +371,9 @@ const fetchUsers=async (req,res)=>{
       }else{
          throw new Error("Password Reset Failed.");
         }
-      }
+          }else{
+            return res.status(401).json({message: "Token expired or invalid"})
+          }
         } catch (error) {
           return res.status(500).json({
             success: false,

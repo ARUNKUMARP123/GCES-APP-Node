@@ -12,7 +12,6 @@ const RegistrationSchema = new Schema(
     course: { type: String },
     branch: { type: String },
     batch: { type: String },
-    usertype: { type: String },
   },
   { timestamps: true }
 );
