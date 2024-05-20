@@ -89,7 +89,7 @@ const handleUserLogin = async (req, res) => {
       return res.status(401).json({
         success: false,
         message: "Bad Credentials",
-      });
+      }); 
     } else {
       const saved_user = await RegistrationModel.findOne({
         rollnumber: req.body.rollnumber,
@@ -100,12 +100,12 @@ const handleUserLogin = async (req, res) => {
             { rollnumber: saved_user.rollnumber },
             process.env.JWT_SECRET_KEY,
             {
-              expiresIn: '2d',
+              expiresIn: '2m',
               issuer: "APP_SERVER",
               subject: "Token for session",
             }
           );
-          res.cookie("2d", JWT_TOKEN, "/");
+          res.cookie("2m", JWT_TOKEN, "/");
           return res.status(200).json({
             success: true,
             message: "Login Successful.",

@@ -7,7 +7,6 @@ function LoginShiled(req, res, next) {
     
     if (req.headers.cookie) {
       const token = req.headers.cookie.split("=")[1];
-      console.log(token)
       const isTokenValid = jwt.verify(token, process.env.JWT_SECRET_KEY, {
         complete: true,
       });
