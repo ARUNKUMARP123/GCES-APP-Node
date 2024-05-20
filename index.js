@@ -34,7 +34,7 @@ app.post("/login",(req,res)=>{
         })
 
 
-        app.post("/create_users",LoginShiled,(req,res)=>{
+        app.post("/create_users",(req,res)=>{
           handleUsers(req,res);
           })
 
@@ -44,16 +44,16 @@ app.post("/login",(req,res)=>{
             })
 
             
-          app.put("/editUsers/:id",LoginShiled,(req,res)=>{
+          app.put("/editUsers/:id",(req,res)=>{
             handleEditUsers(req,res);
             })
 
-            app.get("/getone/:id",LoginShiled,(req,res)=>{
+            app.get("/getone/:id",(req,res)=>{
               handelFetchOne(req,res)
             })
       
 
-            app.delete("/deleteUsers/:id",LoginShiled,(req,res)=>{
+            app.delete("/deleteUsers/:id",(req,res)=>{
               handleDeleteUsers(req,res);
               })
 
