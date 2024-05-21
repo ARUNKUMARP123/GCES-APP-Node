@@ -8,13 +8,27 @@ const cookieParser = require('cookie-parser');
 const LoginShiled = require("./middlewares/LoginShield");
 
 
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://main--gces-app-fe1.netlify.app'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // Allow requests with no origin (like mobile apps or curl requests)
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies to be sent
+};
+
 
 require('dotenv').config()
 app.use(cookieParser());
-app.use(cors({
-  origin: ['http://localhost:5173',"https://main--gces-app-fe1.netlify.app/"] ,// Your frontend URL
-  credentials: true,
-}));
+app.use(cors(corsOptions));
 app.use(bodyparser.json( ));
 
 connectdb();
