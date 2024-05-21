@@ -48,10 +48,11 @@ const handleUserRegistration = async (req, res) => {
             }
           );
           const options = {
-            maxAge:"1d", // ------ in milliseconds
+            maxAge:24 * 60 * 60 * 1000, // ------ in milliseconds
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
             sameSite: 'strict',
+            path: '/',
           };
           
           res.cookie("loginShield", JWT_TOKEN, options);
@@ -112,12 +113,13 @@ const handleUserLogin = async (req, res) => {
             }
           );
           const options = {
-            maxAge:"1d", // ------ in milliseconds
+            maxAge:24 * 60 * 60 * 1000, // ------ in milliseconds
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
             sameSite: 'strict',
+            path: '/',
           };
-          res.cookie("loginShield", JWT_TOKEN, options);
+          res.cookie("loginShield", JWT_TOKEN,options);
           return res.status(200).json({
             success: true,
             message: "Login Successful.",
