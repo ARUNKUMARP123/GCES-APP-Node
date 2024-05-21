@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-function LoginShiled(req, res, next) {
-  console.log(req)
-
+function LoginShield(req, res,next) {
   try {
     
     if (req.headers.cookie) {
@@ -23,4 +21,4 @@ function LoginShiled(req, res, next) {
   }
 }
 
-module.exports = LoginShiled;
+module.exports = LoginShield;

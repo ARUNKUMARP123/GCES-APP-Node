@@ -42,21 +42,27 @@ const handleUserRegistration = async (req, res) => {
             { rollnumber: NEW_USER.rollnumber },
             process.env.JWT_SECRET_KEY,
             {
-              expiresIn: '2d',
+              expiresIn: '1d',
               issuer: "APP_SERVER",
               subject: "Token for session",
             }
           );
+          const options = {
+            maxAge:"1d", // ------ in milliseconds
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            sameSite: 'strict',
+          };
           
-          res.cookie("2h", JWT_TOKEN, "/");
+          res.cookie("loginShield", JWT_TOKEN, options);
           return res.status(201).json({
             success: true,
-            message: "Account Creation Successful.",
+            message: "Account Registration Successful.",
             users: response,
           });
         } 
         else {
-          throw new Error("Account Creation Failed.");
+          throw new Error("Account Registration Failed.");
         }
       }
     }
@@ -100,12 +106,18 @@ const handleUserLogin = async (req, res) => {
             { rollnumber: saved_user.rollnumber },
             process.env.JWT_SECRET_KEY,
             {
-              expiresIn: '2m',
+              expiresIn: '1d',
               issuer: "APP_SERVER",
               subject: "Token for session",
             }
           );
-          res.cookie("2m", JWT_TOKEN, "/");
+          const options = {
+            maxAge:"1d", // ------ in milliseconds
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            sameSite: 'strict',
+          };
+          res.cookie("loginShield", JWT_TOKEN, options);
           return res.status(200).json({
             success: true,
             message: "Login Successful.",

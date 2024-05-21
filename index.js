@@ -4,13 +4,17 @@ const {handleUserRegistration,handleUserLogin,handleUsers,fetchUsers,handleEditU
 const app=express();
 const bodyparser=require("body-parser");
 const cors=require("cors");
+const cookieParser = require('cookie-parser');
 const LoginShiled = require("./middlewares/LoginShield");
 
 
 
 require('dotenv').config()
-
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173', // Your frontend URL
+  credentials: true,
+}));
 app.use(bodyparser.json( ));
 
 connectdb();
@@ -44,16 +48,16 @@ app.post("/login",(req,res)=>{
             })
 
             
-          app.put("/editUsers/:id",(req,res)=>{
+          app.put("/editUsers/:id",LoginShiled,(req,res)=>{
             handleEditUsers(req,res);
             })
 
-            app.get("/getone/:id",(req,res)=>{
+            app.get("/getone/:id",LoginShiled,(req,res)=>{
               handelFetchOne(req,res)
             })
       
 
-            app.delete("/deleteUsers/:id",(req,res)=>{
+            app.delete("/deleteUsers/:id",LoginShiled,(req,res)=>{
               handleDeleteUsers(req,res);
               })
 
