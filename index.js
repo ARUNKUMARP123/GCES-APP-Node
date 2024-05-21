@@ -12,7 +12,7 @@ const LoginShiled = require("./middlewares/LoginShield");
 require('dotenv').config()
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:5173', // Your frontend URL
+  origin: ['http://localhost:5173',"https://main--gces-app-fe1.netlify.app/"] ,// Your frontend URL
   credentials: true,
 }));
 app.use(bodyparser.json( ));
