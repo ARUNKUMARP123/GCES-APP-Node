@@ -31,11 +31,26 @@ const UsersSchema = new Schema(
   { timestamps: true }
 );
 
+const TaskSchema = new Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  dueDate: { type: Date, required: true },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'UsersModel', required: true },
+  assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'UsersModel', required: true },
+  status: { type: String, enum: ['Pending', 'Completed'], default: 'Pending' },
+  marks: {type: Number, default: 0  },
+  adminComments: { type: String },
+  studentComments: { type: String },
+  taskUrl: { type: String },
+  submissionUrl: { type: String ,default: null},
+},{timestamps:true});
+
 
 const RegistrationModel = mongoose.model("Registration", RegistrationSchema);
 const UsersModel = mongoose.model("Users", UsersSchema);
+const TaskModel = mongoose.model("Tasks", TaskSchema);
 
 
 module.exports = {
-  RegistrationModel,UsersModel,
+  RegistrationModel,UsersModel,TaskModel,
 };
