@@ -69,7 +69,7 @@ app.post("/registration", (req, res) => {
   handleUserRegistration(req, res);
 });
 
-app.post("/create_users", (req, res) => {
+app.post("/create_users",verifyToken,isAdmin,  (req, res) => {
   handleUsers(req, res);
 });
 
