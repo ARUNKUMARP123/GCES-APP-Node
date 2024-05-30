@@ -49,7 +49,13 @@ require("dotenv").config();
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(bodyparser.json());
-
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://gces-app-fe1.netlify.app");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 connectdb();
 
 app.get("/", (req, res) => {
