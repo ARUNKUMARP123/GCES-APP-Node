@@ -126,7 +126,7 @@ const handleUserLogin = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000, // ------ in milliseconds
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-            sameSite: "strict",
+            sameSite:process.env.NODE_ENV === "production" ? "none" : "lax",
             path: "/",
           };
           res.cookie("loginShield", JWT_TOKEN, options);
