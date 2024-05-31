@@ -6,6 +6,7 @@ const  verifyToken =(req, res,next)=> {
   try {
     
     if (req.cookies.loginShield || req.cookies) {
+      const token = req.cookies.loginShield;
       const isTokenValid = jwt.verify(token, process.env.JWT_SECRET_KEY, {
         complete: true,
       });
