@@ -151,7 +151,7 @@ app.put("/updatecomments/:id", verifyToken, (req, res) => {
 });
 
 const PORT = process.env.PORT || 4001;
-const HOSTNAME = process.env.HOSTNAME || 'localhost';
+const HOSTNAME = process.env.HOSTNAME ||" 0.0.0.0";
 
 app.listen(PORT, HOSTNAME, () => {
   console.log(`Server started at http://${HOSTNAME}:${PORT}`);
