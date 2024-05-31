@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const { UsersModel } = require("../Schema");
 
 const  verifyToken =(req, res,next)=> {
-  console.log(req)
   try {
     
     if (req.cookies.loginShield || req.cookies) {
