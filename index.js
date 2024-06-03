@@ -32,7 +32,7 @@
   // List of allowed origins for CORS
   const allowedOrigins = [
     "http://localhost:5173",
-    "https://main--gces-app-fe1.netlify.app",
+    "https://gces-app-fe1.netlify.app",
   ];
 
   // CORS configuration
@@ -152,6 +152,6 @@
   const PORT = process.env.PORT || 4001;
   const HOSTNAME = process.env.HOSTNAME ||" 0.0.0.0";
 
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT || 4001}`);
+  app.listen(PORT,HOSTNAME, () => {
+    console.log(`Server running on port http://${HOSTNAME}:${PORT || 4001}`);
   });
