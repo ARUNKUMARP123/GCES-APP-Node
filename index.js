@@ -38,11 +38,10 @@
   // CORS configuration
   const corsOptions = {
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // Allow requests with no origin (like mobile apps or curl requests)
-      if (allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        callback(new Error('Not allowed by CORS'));
       }
     },
     credentials: true, // Allow cookies to be sent
@@ -153,6 +152,6 @@
   const PORT = process.env.PORT || 4001;
   const HOSTNAME = process.env.HOSTNAME ||" 0.0.0.0";
 
-  app.listen(PORT, HOSTNAME, () => {
-    console.log(`Server started at http://${HOSTNAME}:${PORT}`);
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT || 4001}`);
   });
