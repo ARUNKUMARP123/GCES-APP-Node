@@ -99,17 +99,18 @@ const handleUserRegistration = async (req, res) => {
 };
 
 const handleUserLogin = async (req, res) => {
+  
   try {
     const filter={email:req.body.email}
     const user = await UsersModel.findOne(filter);
-    if (!req.body.password1 || !req.body.rollnumber || !req.body.email) {
+    if (!req.body.password1 ||!req.body.email) {
       return res.status(401).json({
         success: false,
         message: "Bad Credentials",
       });
     } else {
       const saved_user = await RegistrationModel.findOne({
-        rollnumber: req.body.rollnumber,
+        email: req.body.email,
       });
       if (saved_user && saved_user._id) {
         if (bcrypt.compareSync(req.body.password1, saved_user.password1)) {
