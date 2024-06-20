@@ -33,7 +33,7 @@
   const allowedOrigins = [
     "http://localhost:5173",
     "https://gces-app-fe1.netlify.app",
-    "https://main--gces-app-fe1.netlify.app"
+    "https://main--gces-app-fe1.netlify.app",
   ];
 
   // CORS configuration
